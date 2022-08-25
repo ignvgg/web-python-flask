@@ -7,6 +7,6 @@ La intención del repositorio es una practica de creación de un CRUD con Python
 Práctica adicional de agregar, editar y borrar 'empleados', junto con la validación de los datos de entrada.
 
 ## 🇺🇸 Web app runnning on Python & Flask
-The intention of this repository is to merely practice CRUD with Python, with Flask, focusing in the data flux, database and information proccessing.
+The intention of this repository is to merely practice CRUD with Python, with Flask, focusing on the data flux, database, and information processing.
 
 Additional practice with editing and deleting 'employees' and data entry validation.
