@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template, request
+from flask import render_template, request, redirect
 from flaskext.mysql import MySQL
 from datetime import datetime
 
@@ -14,8 +14,21 @@ mysql.init_app(app)
 
 @app.route('/')
 def index():
+	sql = "SELECT * FROM `sistema`.`empleados`;"
+	conn = mysql.connect()
+	cursor = conn.cursor()
+	cursor.execute(sql)
+	empleados=cursor.fetchall()
+	conn.commit()
+	return render_template('empleados/index.html', empleados=empleados)
 
-	return render_template('empleados/index.html')
+@app.route('/destroy/<int:id>')
+def destroy(id):
+	conn = mysql.connect()
+	cursor = conn.cursor()
+	cursor.execute("DELETE FROM `sistema`.`empleados` WHERE id=%s", (id))
+	conn.commit()
+	return redirect('/')
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():

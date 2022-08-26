@@ -1,6 +1,40 @@
-<form method="post" action="/store" enctype="multipart/form-data">
-    Nombre: <input type="text" name="txtNombre" id="txtNombre"><br>
-    Correo: <input type="text" name="txtCorreo" id="txtCorreo"><br>
-    Foto: <input type="file" name="txtFoto" id="txtFoto"><br><br>
-    <input type="submit" value="Agregar">
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>SE | Add</title>
+</head>
+<body>
+    <ul class="nav" style="justify-content: center;">
+        <li class="nav-item">
+            <a class="nav-link disabled">SitemaEmpleados</a>
+          </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/create">Argegar</a>
+        </li>
+    </ul>
+    <form method="post" action="/store" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="txtNombre">Name</label>
+            <input type="email" class="form-control" name="txtNombre" id="txtNombre" placeholder="John Doe">
+        </div>
+        <div class="form-group">
+            <label for="txtCorreo">Email</label>
+            <input type="email" class="form-control" name="txtCorreo" id="txtCorreo" placeholder="John Doe">
+        </div>
+        <div class="form-group">
+            <label for="txtFoto">Picture</label>
+            <input type="file" class="form-control-file" name="txtFoto" id="txtFoto">
+        </div>
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <input type="submit" value="Agregar">
+            </li>
+        </ul>
+    </form>
+</body>

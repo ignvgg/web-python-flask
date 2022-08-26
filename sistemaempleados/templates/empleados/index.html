@@ -4,9 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <title>Sistema de Empleados</title>
+    <title>SE | Welcome</title>
 </head>
 <body>
-    <p>Template html inicial</p>
+    <table class="table table-light">
+        <thead class="thead-light">
+            <tr>
+                <th>•</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Foto</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for empleado in empleados %}
+            <tr>
+                <td>{{empleado[0]}}</td>
+                <td>{{empleado[1]}}</td>
+                <td>{{empleado[2]}}</td>
+                <td>{{empleado[3]}}</td>
+                <td>Edit | <a href='/destroy/{{empleado[0]}}'>Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+          <a class="nav-link active" href="/create">Add Employee</a>
+        </li>
+    </ul>
 </body>
 </html>
