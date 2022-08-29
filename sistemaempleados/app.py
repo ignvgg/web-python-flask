@@ -1,9 +1,12 @@
 from flask import Flask
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, send_from_directory, url_for, flash
 from flaskext.mysql import MySQL
 from datetime import datetime
+import os
 
 app = Flask(__name__)
+
+app.secret_key="ClaveSecreta"
 
 # Database Connection (localhost, XAMPP outside environment)
 
@@ -13,6 +16,17 @@ app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_BD'] = 'sistema'
 mysql.init_app(app)
+
+# Staging the picture update folder inside the OS module
+
+CARPETA= os.path.join('uploads')
+app.config['CARPETA']=CARPETA
+
+# Including the interpreter for the picture
+
+@app.route('/uploads/<nombreFoto>')
+def uploads(nombreFoto):
+	return send_from_directory(app.config['CARPETA'], nombreFoto)
 
 # Index page, 'main menu'. Shows current state of employees database.
 
@@ -32,6 +46,9 @@ def index():
 def destroy(id):
 	conn = mysql.connect()
 	cursor = conn.cursor()
+	cursor.execute("SELECT foto FROM `sistema`.`empleados` WHERE id=%s", id)
+	fila= cursor.fetchall()
+	os.remove(os.path.join(app.config['CARPETA'], fila[0][0]))
 	cursor.execute("DELETE FROM `sistema`.`empleados` WHERE id=%s", (id))
 	conn.commit()
 	return redirect('/')
@@ -51,6 +68,10 @@ def storage():
 	_nombre = request.form['txtNombre']
 	_correo = request.form['txtCorreo']
 	_foto = request.files['txtFoto']
+
+	if _nombre == '' or _correo == '' or _foto =='':
+		flash('Fill out all the forms in order to create a new Empolyee')
+		return redirect(url_for('create'))
 
 	now = datetime.now()
 	tiempo = now.strftime('%Y%H%M%S')
@@ -97,9 +118,21 @@ def update():
 	conn = mysql.connect()
 	cursor = conn.cursor()
 
+	now = datetime.now()
+	tiempo = now.strftime('%Y%H%M%S')
+
+	if _foto.filename!='':
+		nuevoNombreFoto = tiempo + _foto.filename
+		_foto.save('uploads/' + nuevoNombreFoto)
+		cursor.execute("SELECT foto FROM `sistema`.`empleados` WHERE id=%s", id)
+		fila= cursor.fetchall()
+		os.remove(os.path.join(app.config['CARPETA'], fila[0][0]))
+		cursor.execute("UPDATE `sistema`.`empleados` SET foto=%s WHERE id=%s", (nuevoNombreFoto, id))
+		conn.commit()
+
 	cursor.execute(sql,datos)
 	conn.commit()
-	
+
 	return redirect('/')
 
 

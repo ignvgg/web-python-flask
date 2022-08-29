@@ -1,40 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <title>SE | Add</title>
-</head>
-<body>
-    <ul class="nav" style="justify-content: center;">
+{% include 'header.html' %}
+{% with messages= get_flashed_messages() %}
+{% if messages %}
+ <div class="alert alert-danger" role="alert">
+ {% for message in messages %}
+ {{message}}
+ {% endfor %}
+ </div>
+{% endif %}
+{% endwith %}
+<form method="post" action="/store" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="txtNombre">Name</label>
+        <input type="text" class="form-control" name="txtNombre" id="txtNombre" placeholder="John Doe">
+    </div>
+    <div class="form-group">
+        <label for="txtCorreo">Email</label>
+        <input type="email" class="form-control" name="txtCorreo" id="txtCorreo" placeholder="example@host.com">
+    </div>
+    <div class="form-group">
+        <label for="txtFoto">Picture</label>
+        <input type="file" class="form-control-file" name="txtFoto" id="txtFoto">
+    </div>
+    <ul class="nav justify-content-center">
         <li class="nav-item">
-            <a class="nav-link disabled">SitemaEmpleados</a>
-          </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/create">Argegar</a>
+            <input type="submit" value="Agregar">
         </li>
     </ul>
-    <form method="post" action="/store" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="txtNombre">Name</label>
-            <input type="text" class="form-control" name="txtNombre" id="txtNombre" placeholder="John Doe">
-        </div>
-        <div class="form-group">
-            <label for="txtCorreo">Email</label>
-            <input type="email" class="form-control" name="txtCorreo" id="txtCorreo" placeholder="John Doe">
-        </div>
-        <div class="form-group">
-            <label for="txtFoto">Picture</label>
-            <input type="file" class="form-control-file" name="txtFoto" id="txtFoto">
-        </div>
-        <ul class="nav justify-content-center">
-            <li class="nav-item">
-                <input type="submit" value="Agregar">
-            </li>
-        </ul>
-    </form>
-</body>
+</form>
+{% include 'footer.html' %}

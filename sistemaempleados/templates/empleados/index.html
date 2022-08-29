@@ -1,38 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <title>SE | Welcome</title>
-</head>
-<body>
-    <table class="table table-light">
-        <thead class="thead-light">
-            <tr>
-                <th>•</th>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Foto</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for empleado in empleados %}
-            <tr>
-                <td>{{empleado[0]}}</td>
-                <td>{{empleado[1]}}</td>
-                <td>{{empleado[2]}}</td>
-                <td>{{empleado[3]}}</td>
-                <td><a href='/edit/{{empleado[0]}}'>Edit</a> | <a href='/destroy/{{empleado[0]}}'>Delete</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <ul class="nav justify-content-center">
-        <li class="nav-item">
-          <a class="nav-link active" href="/create">Add Employee</a>
-        </li>
-    </ul>
-</body>
-</html>
+{% include 'header.html' %}
+<br>
+<a href="{{url_for('create')}}" class="btn btn-success">
+ Add new Employee
+</a>
+<br>
+<br>
+<table class="table table-light">
+    <thead class="thead-light">
+        <tr>
+            <th>•</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Foto</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for empleado in empleados %}
+        <tr>
+            <td>{{empleado[0]}}</td>
+            <td>{{empleado[1]}}</td>
+            <td>{{empleado[2]}}</td>
+            <td><img class='img-thumbnail' width="100" src="uploads/{{empleado[3]}}" alt="Employee Picture"></td>
+            <td><a class="btn btn-warning" href="/edit/{{empleado[0]}}">Edit</a>  
+                <a class="btn btn-danger" onclick="return confirm('Do you wish to delete employee?')" href="/destroy/{{empleado[0]}}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% include 'footer.html' %}
