@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 app.secret_key="ClaveSecreta"
 
-# Database Connection (localhost, XAMPP outside environment)
+# Database Connection (localhost, XAMPP outside venv).
 
 mysql = MySQL()
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
@@ -17,18 +17,16 @@ app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_BD'] = 'sistema'
 mysql.init_app(app)
 
-# Staging the picture update folder inside the OS module
+# Connect physical 'uploads' folder to the project's OS.
 
 CARPETA= os.path.join('uploads')
 app.config['CARPETA']=CARPETA
-
-# Including the interpreter for the picture
 
 @app.route('/uploads/<nombreFoto>')
 def uploads(nombreFoto):
 	return send_from_directory(app.config['CARPETA'], nombreFoto)
 
-# Index page, 'main menu'. Shows current state of employees database.
+# Index page. Shows current state of employees table inside the database.
 
 @app.route('/')
 def index():
@@ -40,7 +38,7 @@ def index():
 	conn.commit()
 	return render_template('empleados/index.html', empleados=empleados)
 
-# Delete function called within index with SQL query, refresh index.
+# Delete function called within index page to delete an employee, refreshes page.
 
 @app.route('/destroy/<int:id>')
 def destroy(id):
@@ -53,14 +51,15 @@ def destroy(id):
 	conn.commit()
 	return redirect('/')
 
-# Create employee method
+# Create employee template handler.
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
 
 	return render_template('empleados/create.html')
 
-# After succsessfully creating an employee (form completion), insert into database.
+# After succsessfully creating an employee, insert information into database.
+# Handle empty forms, throws an error on top of the page.
 
 @app.route('/store', methods=['GET', 'POST'])
 def storage():
@@ -89,7 +88,7 @@ def storage():
 
 	return redirect('/')
 
-# Function that permits editing an existing employee
+# Edit template, calls the db for information, renders edit template with variables.
 
 @app.route('/edit/<int:id>')
 def edit(id):
@@ -102,7 +101,8 @@ def edit(id):
 
 	return render_template('empleados/edit.html', empleados=empleados)
 
-# Update function after edit template runs and confirms a commit to the database
+# Update function after edit template runs, confirms a commit to the database.
+# Picture handler.
 
 @app.route('/update', methods=['GET', 'POST'])
 def update():
